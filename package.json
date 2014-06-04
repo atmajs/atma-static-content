@@ -1,0 +1,14 @@
+{
+  "name": "atma-server-static",
+  "version": "1.0.2",
+  "description": "HTTP Static Content Middleware",
+  "author": "Alexander Kit (alex.kit@atmajs.com)",
+  "main": "/lib/static.min.js",
+  "license": "MIT",
+  "devDependencies": {
+    "atma-libs": "latest",
+    "atma-io": "latest",
+    "atma": "latest",
+    "request": "~2.36.0"
+  }
+}
