@@ -44,7 +44,7 @@ var File_Stream;
 				.pipe(res)
 				.on('close', streamDispose)
 				.on('error', streamDispose)
-			stream.pipe(res);
+				;
 			
 		}
 	});
