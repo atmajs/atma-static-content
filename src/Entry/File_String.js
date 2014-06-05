@@ -6,7 +6,7 @@ var File_String;
 		statsCompleted: function(self, stats){
 			
 			File
-				.readAsync(self.path, { encoding: 'buffer' })
+				.readAsync('file://' + self.path, { encoding: 'buffer' })
 				.pipe(self, 'fail')
 				.done(function(content, file){
 					self.content = content;

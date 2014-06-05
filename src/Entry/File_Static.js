@@ -82,7 +82,6 @@ var File_Static;
 		getStats: function(req, cb){
 			var self = this;
 			file_stats(this.path, function(error, stat){
-				logger.error('>>stat err'.yellow, self.path, error, stat && stat.isFile());
 				if (error) {
 					self.reject(error);
 					return;
