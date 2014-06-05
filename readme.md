@@ -2,11 +2,14 @@ Http Server static middleware
 -----
 [![Build Status](https://travis-ci.org/atmajs/atma-static-content.svg?branch=master)](https://travis-ci.org/atmajs/atma-static-content)
 [![NPM version](https://badge.fury.io/js/static-content.svg)](http://badge.fury.io/js/static-content)
-- String file caching
-- String file gzip
-- File read middlewares. Refer to [atma-io](https://github.com/atmajs/atma-io) for documentation.
-- Range requests _audio/video streaming_
-- Support static handlers per each sub-application [atma-server](https://github.com/atmajs/atma-server)
+- Binary/String files _html/scripts/styles/texts/json/.etc_:
+	- cache
+	- gzip
+	- File read middlewares. Refer to [atma-io](https://github.com/atmajs/atma-io) for documentation. 
+- Binary streams _images/audio/video/pdf/.etc_:
+	- Range requests
+	
+- Best works with [atma-server](https://github.com/atmajs/atma-server)
 
 #### API
 ```javascript
@@ -15,7 +18,11 @@ require('static-content'):StaticContentMiddleware;
 StaticContentMiddleware {
 	create: function(settings:StaticContentSettings): function(req, res, next, AppConfig),
 	respond: function(req, res, next, AppConfig):null,
-	send: ExpressSend
+	send: ExpressSend,
+	Cache: Object {
+		status: function(enabled:Boolean)
+		remove: function(path:String)
+	}
 }
 
 StaticContentSettings {
@@ -92,13 +99,8 @@ atma
 					connect.cookieParser(),
 					connect.bodyParser(),
 					connect.session({
-						secret: 'asdas2asmd92amxcwd2asc',
-						cookie: { maxAge: 7 * 24 * 60 * 60 * 1000 },
-						store: new MongoStore({
-							db: 'calendar'
-						})
+						// ..
 					}),
-					redirect(),
 					passport.initialize(),
 					passport.session()
 				]
@@ -114,9 +116,7 @@ atma
 ```javascript
 module.exports = atma
 	.server
-	.Application({
-		configs: '/server/configs/*.yml'
-	})
+	.Application({})
 	.done(function(app){
 		app.responders([ 
 			// dynamic content response
