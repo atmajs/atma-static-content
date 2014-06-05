@@ -33,7 +33,6 @@ var File_Stream;
 					options.end = range[1];
 				}
 			}
-			//__fs.createReadStream(this.path, options).pipe(res);
 			var stream = __fs.createReadStream(this.path, options);
 			var streamDispose = stream.destroy.bind(stream),
 				resDispose = res.destroy.bind(res);
@@ -45,7 +44,6 @@ var File_Stream;
 				.on('close', streamDispose)
 				.on('error', streamDispose)
 				;
-			
 		}
 	});
 	

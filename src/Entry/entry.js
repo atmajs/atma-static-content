@@ -1,6 +1,7 @@
 var entry_get,
-	entry_cache_has,
-	entry_cache_clear
+	entry_cache_state,
+	entry_cache_remove,
+	entry_cache_watch;
 	;
 	
 (function(){
@@ -13,10 +14,30 @@ var entry_get,
 			file = File_Static.create(path, mimeType, req, config)
 			;
 		
+		if (CacheEnabled === false) 
+			return file;
+		
 		return (Cache[path] = file);	
 	};
+	entry_cache_state = function(state){
+		if (state === false) 
+			Cache = {};
+		io.File[
+			state && 'enableCache' || 'disableCache'
+		]();
+		CacheEnabled = state;
+	};
+	entry_cache_remove = function(path){
+		delete Cache[path];
+		io.File.clearCache(path);
+	};
+	entry_cache_watch = function(state){
+		CacheWatch = state;
+	};
 	
-	var Cache = {};
+	var Cache = {},
+		CacheEnabled = true,
+		CacheWatch = true;
 	
 	//import File_Static.js
 }());

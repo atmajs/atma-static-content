@@ -19,8 +19,13 @@ module.exports = {
 	create: createMiddleware,
 	respond: createMiddleware(),
 	
-	send: interface_express_send
-}
+	send: interface_express_send,
+	
+	Cache: {
+		state: entry_cache_state,
+		remove: entry_cache_remove
+	}
+};
 
 /*
  * staticContentSettings {
