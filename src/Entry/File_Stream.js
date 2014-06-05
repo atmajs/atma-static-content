@@ -4,28 +4,36 @@ var File_Stream;
 		Base: File_Static,
 		maxAge: 60 * 30,
 		
-		range_start: null,
-		range_end: null,
-		
-		statsCompleted: function(self, stats, req){
-			Range.tryGet(self, stats, req);
-			self.resolve(self);
-		},
-		
 		Override: {
-			write: function(req, res){
-				if (Range.isRange(this)) {
-					Range.write(this, req, res);
+			write: function(req, res, settings){
+				var range = Range.tryGet(this, req);
+				if (range != null) {
+					Range.write(this, range, res, settings);
 					return;
 				}
 				
 				res.setHeader('Accept-Ranges', 'bytes');
-				this.super(req, res);
+				this.super(req, res, settings);
 			}
 		},
 		
-		writeBody: function(res) {
-			__fs.createReadStream(this.path).pipe(res);
+		writeBody: function(res, encoding, settings) {
+			var options = {
+				flags: 'r'
+			};
+			if (settings != null && settings.start != null) {
+				var range = Range.toRange(
+						settings.start
+						, settings.end
+						, this.size
+					);
+				
+				if (range[1] >= range[0]) {
+					options.start = range[0];
+					options.end = range[1];
+				}
+			}
+			__fs.createReadStream(this.path, options).pipe(res);
 		}
 	});
 	
@@ -33,54 +41,65 @@ var File_Stream;
 	var Range;
 	(function(){
 		Range = {
-			tryGet: function(file, stats, req) {
+			tryGet: function(file, req) {
 				var range = req.headers.range;
 				if (range == null) 
-					return;
+					return null;
 				
-				var parts = /bytes=(\d+)-(\d+)?/.exec(range);
+				var ifRange = req.headers['if-range'];
+				if (ifRange != null && isModified(ifRange, file)) 
+					return null;
+				
+				var parts = /bytes=(\d+)?-(\d+)?$/.exec(range);
 				if (parts == null) 
-					return;
-				var start = +parts[1],
-					end = +parts[2];
+					return null;
 				
-				if (isNaN(start))
-					start = 0;
+				return this.toRange(+parts[1], +parts[2], file.size);
+			},
+			toRange: function(start, end, size){
+				if (isNaN(start)) {
+					if (isNaN(end) === false) {
+						start = size - end;
+						end = size - 1;
+					}else {
+						start = 0;
+					}
+				}
 				if (isNaN(end))
-					end = stats.size - 1;
-					
-				if (end > stats.size - 1 || end < start) 
+					end = size - 1;
+				if (end > size - 1) {
+					//- end = -1; not an error, adjust range:
+					end = size - 1;
+				}
+				if (end < start) 
 					end = -1;
-					
-				file.range_start = start;
-				file.range_end = end;
+				return [start, end];
 			},
-			isRange: function(file){
-				return file.range_start != null && file.range_end != null;
-			},
-			write: function(file, req, res){
-				if (file.range_end === -1) {
+			write: function(file, range, res){
+				if (range[1] === -1) {
 					res.writeHead(416, {
-						'Content-Type': 'text/plain'
+						'Content-Type': 'text/plain',
+						'Content-Range': 'bytes */' + file.size
 					});
 					res.end('Requested Range Not Satisfiable');
 					return;
 				}
 				
-				var start = file.range_start,
-					end = file.range_end,
-					size = end - start + 1;
-				var headers = {
+				
+				var start = range[0],
+					end = range[1];
+				
+				var size = end - start + 1,
+					headers = {
 					'Connection': 'keep-alive',
 					'Cache-Control': 'public; max-age=' + file.maxAge,
 					'Content-Type': file.mimeType,
 					'Content-Transfer-Encoding': 'binary',
 					'Content-Length': size,
 					'Content-Disposition': 'inline; filename=' + file.getFilename() + ';',
-					
 					'Status': '206 Partial Content',
 					'Accept-Ranges': 'bytes',
-					'Content-Range': 'bytes ' + start + '-' + end + '/' + size
+					'Content-Range': 'bytes ' + start + '-' + end + '/' + file.size
 				};
 				if (this.etag != null) 
 					headers['ETag'] = this.etag;
@@ -104,6 +123,17 @@ var File_Stream;
 			
 		};
 		
+		function isModified(mix, file) {
+			
+			var isETag = mix.indexOf('"') !== -1;
+			if (isETag && file.etag != null) 
+				return file.etag.indexOf(mix) === -1;
+			
+			if (!isETag && file.modified != null) {
+				return Date.parse(file.modified) > Date.parse(mix);
+			}
+			return true;
+		}
 		// A tiny subset of http://phpjs.org/functions/pack:880
 		function pack(format) {
 			var result = '',

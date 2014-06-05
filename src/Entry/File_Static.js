@@ -15,25 +15,24 @@ var File_Static;
 		gzip: null,
 		content: null,
 		
-		Construct: function(path, mimeType, req, config){
+		Construct: function(path, mimeType, req){
 			this.path = path;
 			this.mimeType = mimeType;
 			this.getStats(req, this.statsCompleted);
 		},
 		
 		Static: {
-			create: function(path, mimeType, req, config){
+			create: function(path, mimeType, req){
 				
 				var Ctor = MimeTypes.isString(mimeType)
 					? File_String
 					: File_Stream
 					;
-				return new Ctor(path, mimeType, req, config);
+				return new Ctor(path, mimeType, req);
 			}
 		},
 		
-		write: function(req, res){
-			MimeTypes.writeHead(res, this.mimeType);
+		write: function(req, res, settings){
 			
 			// weak caching
 			if (this.etag != null) 
@@ -42,9 +41,13 @@ var File_Static;
 				res.setHeader('Last-Modified', this.modified.toUTCString());
 			
 			
-			// string caching
-			if (this.maxAge != null) 
-				res.setHeader('Cache-Control', 'public, max-age:' + this.maxAge);
+			// strong caching
+			var maxAge = settings.maxAge == null
+				? this.maxAge
+				: settings.maxAge;
+			if (maxAge != null) {
+				res.setHeader('Cache-Control', 'public, max-age=' + maxAge);
+			}
 			
 			// content
 			var encoding = this.getEncoding(req),
@@ -53,19 +56,19 @@ var File_Static;
 			if (encoding != null) 
 				res.setHeader('Content-Encoding', encoding);
 				
-			res.setHeader('Content-Length', length);
-			
 			if (this.isNotModified(req)) {
 				res.statusCode = 304;
 				res.end();
 				return;
 			}
+			MimeTypes.writeHead(res, this.mimeType);
+			res.setHeader('Content-Length', length);
 			
 			if (req.method === 'HEAD') {
 				res.end();
 				return;
 			}
-			this.writeBody(res, encoding)
+			this.writeBody(res, encoding, settings)
 		},
 		writeBody: function(res, encoding){
 			
@@ -78,23 +81,28 @@ var File_Static;
 		
 		getStats: function(req, cb){
 			var self = this;
-			file_stats(this.path, function(error, stats){
+			file_stats(this.path, function(error, stat){
 				if (error) {
 					self.reject(error);
 					return;
 				}
-				if (stats.isFile() === false) {
-					if (stats.isDirectory()) {
-						self.reject('Directory');
+				if (stat.isFile() === false) {
+					if (stat.isDirectory()) {
+						self.reject({ code: 'EISDIR' });
 						return;
 					}
-					self.reject('Not a file');
+					self.reject({ code: 'ENOTFILE' });
 					return;
 				}
 				
-				self.modified = stats.mtime;
-				self.size = stats.size;
-				cb(self, stats, req);
+				self.etag = calcETag(self.path, stat);
+				self.modified = stat.mtime;
+				self.size = stat.size;
+				
+				if (cb)
+					return cb(self, stat, req);
+				
+				self.resolve(self);
 			});
 		},
 		getFilename: function(){
@@ -135,7 +143,7 @@ var File_Static;
 				return this.etag === etag;
 			
 			if (this.modified != null && utc) 
-				return this.modified <= new Date(utc);
+				return this.modified <= Date.parse(utc);
 			
 			return false;
 		}
@@ -143,5 +151,29 @@ var File_Static;
 	
 	// import File_String.js
 	// import File_Stream.js
+	
+	var calcETag;
+	(function(){
+		calcETag = function (path, stat){
+			var base64,
+				tag = stat.mtime.getTime()
+					+ ':'
+					+ stat.size
+					+ ':'
+					+ path
+				;
+			if (_crypto == null) 
+				_crypto = require('crypto');
+			
+			base64 = _crypto
+				.createHash('md5')
+				.update(tag, 'utf8')
+				.digest('base64');
+				
+			return 'W/"' + base64 + '"';
+		};
+		var _crypto;
+	}());
+	
 	
 }());

@@ -1,19 +1,29 @@
-var File_String = Class({
-	Base: File_Static,
-	
-	statsCompleted: function(self){
+var File_String;
+(function(){
+	File_String = Class({
+		Base: File_Static,
 		
-		File
-			.readAsync(self.path, { encoding: 'buffer' })
-			.pipe(self, 'fail')
-			.done(function(content, file){
-				self.content = content;
-				
-				file_gzip(content, function(gzip){
-					self.gzip = gzip;
-					self.resolve(self);
+		statsCompleted: function(self, stats){
+			
+			File
+				.readAsync(self.path, { encoding: 'buffer' })
+				.pipe(self, 'fail')
+				.done(function(content, file){
+					self.content = content;
+					
+					if (content.length < 100) {
+						self.resolve(self);
+						return;
+					}
+					
+					file_gzip(content, function(gzip){
+						if (gzip != null && gzip.length < stats.length) 
+							self.gzip = gzip;
+						
+						self.resolve(self);
+					});
 				});
-			});
-	}
+		}
+	});
 	
-})
+}());

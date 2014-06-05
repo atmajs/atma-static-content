@@ -22,7 +22,7 @@ UTest({
 		
 		var r = require('request');
 		
-		r('http://localhost:5888/content/index.html', function(error, response, body){
+		r('http://localhost:5888/', function(error, response, body){
 			eq_(error, null);
 			has_(body, '</audio>');
 			done();

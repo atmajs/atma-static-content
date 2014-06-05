@@ -21,7 +21,7 @@ var MimeTypes;
 		},
 		writeHead: function(res, mimeType) {
 			var str = mimeType + (this.isString(mimeType)
-				? '; charser=utf-8'
+				? '; charset=UTF-8'
 				: ''
 			);
 			res.setHeader('Content-Type', str);

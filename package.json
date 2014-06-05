@@ -1,14 +1,24 @@
 {
-  "name": "atma-server-static",
-  "version": "1.0.2",
-  "description": "HTTP Static Content Middleware",
-  "author": "Alexander Kit (alex.kit@atmajs.com)",
-  "main": "/lib/static.min.js",
-  "license": "MIT",
-  "devDependencies": {
-    "atma-libs": "latest",
-    "atma-io": "latest",
-    "atma": "latest",
-    "request": "~2.36.0"
-  }
+    "name": "static-content",
+    "version": "1.0.2",
+    "description": "HTTP Static Content Middleware",
+    "author": "Alexander Kit (alex.kit@atmajs.com)",
+    "main": "/lib/static.min.js",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/atmajs/atma-server-static.git"
+    },
+    
+    "scripts": {
+        "test": "atma test"
+    },
+    "devDependencies": {
+        "atma": "latest",
+        "atma-libs": "latest",
+        "atma-io": "latest",
+        "request": "~2.36.0",
+        "supertest": "~0.13.0",
+        "should": "~4.0.1"
+    }
 }

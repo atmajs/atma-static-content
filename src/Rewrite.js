@@ -1,11 +1,15 @@
 var Rewrite;
 (function(){
 	Rewrite = {
-		process: function(path){
-				
-			if (_rewrites.hasOwnProperty(path)) {
+		process: function(path, config){
+			if (_rewrites.hasOwnProperty(path)) 
 				return _rewrites[path];
+			
+			if (path.charCodeAt(path.length - 1) === 47) {
+				// /
+				path += config && config.index || 'index.html';
 			}
+			
 			
 			// .reference
 			if (path.indexOf('.reference') !== -1) 
@@ -17,8 +21,6 @@ var Rewrite;
 	
 	// import rewrite/reference.js
 	
-	var _rewrites = {
-		'/': 'index.html'
-	};
+	var _rewrites = {};
 	
 }());
