@@ -17,7 +17,7 @@ var File_String;
 					}
 					
 					file_gzip(content, function(gzip){
-						if (gzip != null && gzip.length < stats.length) 
+						if (gzip != null && gzip.length < stats.size) 
 							self.gzip = gzip;
 						
 						self.resolve(self);

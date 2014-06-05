@@ -1,9 +1,9 @@
 {
     "name": "static-content",
-    "version": "1.0.4",
+    "version": "1.0.6",
     "description": "HTTP Static Content Middleware",
     "author": "Alexander Kit (alex.kit@atmajs.com)",
-    "main": "/lib/static.min.js",
+    "main": "lib/static.min.js",
     "license": "MIT",
     "repository": {
         "type": "git",

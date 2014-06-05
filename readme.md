@@ -6,7 +6,7 @@ Http Server static middleware
 - String file gzip
 - File read middlewares. Refer to [atma-io](https://github.com/atmajs/atma-io) for documentation.
 - Range requests _audio/video streaming_
-- Support static handlers per each sub-application [atma-server][atma-io](https://github.com/atmajs/atma-server)
+- Support static handlers per each sub-application [atma-server](https://github.com/atmajs/atma-server)
 
 #### API
 ```javascript
