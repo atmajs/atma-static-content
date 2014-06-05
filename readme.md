@@ -1,7 +1,7 @@
 Http Server static middleware
 -----
-[![Build Status](https://travis-ci.org/atmajs/atma-server-static.png?branch=master)](https://travis-ci.org/atmajs/atma-server-static)
-
+[![Build Status](https://travis-ci.org/atmajs/atma-static-content.svg?branch=master)](https://travis-ci.org/atmajs/atma-static-content)
+[![NPM version](https://badge.fury.io/js/static-content.svg)](http://badge.fury.io/js/static-content)
 - String file caching
 - String file gzip
 - File read middlewares. Refer to [atma-io](https://github.com/atmajs/atma-io) for documentation.

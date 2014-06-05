@@ -1,6 +1,6 @@
 {
     "name": "static-content",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "HTTP Static Content Middleware",
     "author": "Alexander Kit (alex.kit@atmajs.com)",
     "main": "/lib/static.min.js",
@@ -9,7 +9,6 @@
         "type": "git",
         "url": "https://github.com/atmajs/atma-server-static.git"
     },
-    
     "scripts": {
         "test": "atma test"
     },
