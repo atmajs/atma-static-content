@@ -43,11 +43,20 @@ module.exports = {
 */
 function createMiddleware(settings) {
 	var responder = responder_create(settings || {});
-	return function(req, res, next, config){
+	return function(req, res, next){
+		// make it connectjs middleware compatible
+		var config = arguments.length > 3
+			? arguments[3]
+			: null;
+			
 		responder(req, res, config)
 			.fail(function(error) {
 				if (next != null) {
-					next(send_toHttpError(error))
+					error = send_toHttpError(error);
+					if (error.code === 404) {
+						error = null;
+					}
+					next(error);
 					return;
 				}
 				send_error(res, error);

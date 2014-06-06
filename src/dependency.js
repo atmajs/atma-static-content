@@ -9,12 +9,8 @@ var Class,
 	if (global.atma && atma.Class) 
 		atma = global.atma;
 	
-	if (atma.Class == null) {
+	if (atma.Class == null) 
 		atma = require('atma-libs/exports-dev');
-		console.dir(new atma.Class.Deferred().pipe, '<');
-	}
-	
-	
 	
 	if (global.io && global.io.File) 
 		File = global.io.File;
@@ -24,6 +20,4 @@ var Class,
 	
 	Class = atma.Class;
 	net = atma.net;
-	
-	
-}())
+}());

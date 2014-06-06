@@ -7,7 +7,7 @@ var path_fromUrl,
 			base = null,
 			query = url.indexOf('?');
 		if (query !== -1) 
-			path = url.replace(0, query);
+			path = url.substring(0, query);
 			
 		path = decode(path);
 		if (path == null) 
