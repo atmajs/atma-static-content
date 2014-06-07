@@ -42,7 +42,8 @@ module.exports = {
  }
 */
 function createMiddleware(settings) {
-	var responder = responder_create(settings || {});
+	settings = settings || {};
+	var responder = responder_create(settings);
 	return function(req, res, next){
 		// make it connectjs middleware compatible
 		var config = arguments.length > 3
@@ -53,7 +54,7 @@ function createMiddleware(settings) {
 			.fail(function(error) {
 				if (next != null) {
 					error = send_toHttpError(error);
-					if (error.code === 404 && settins.silentNotFound !== false) 
+					if (error.code === 404 && settings.silentNotFound !== false) 
 						error = null;
 					
 					next(error);
