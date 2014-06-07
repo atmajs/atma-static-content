@@ -89,12 +89,19 @@ var path_fromUrl,
 			if (base == null) 
 				return _cwd;
 			
-			if (base.substring(0, 5) === 'file:') 
-				return base.replace('file://', '');
+			if (base.substring(0, 5) === 'file:') {
+				base = base.replace('file://', '');
+				
+				return base[0] === '/' && rgx_hasDrive.test(base)
+					? base.substring(1)
+					: base
+					;
+			}
 			
 			return normalize(_Uri.combine(_cwd, base));
 		};
 		
+		var rgx_hasDrive = /^\/?[A-Za-z]:(\/|\\)/;
 		function findBase(appConfig, settings) {
 			if (appConfig != null){
 				if (appConfig.static != null) 

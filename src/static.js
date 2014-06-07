@@ -53,9 +53,9 @@ function createMiddleware(settings) {
 			.fail(function(error) {
 				if (next != null) {
 					error = send_toHttpError(error);
-					if (error.code === 404) {
+					if (error.code === 404 && settins.silentNotFound !== false) 
 						error = null;
-					}
+					
 					next(error);
 					return;
 				}
