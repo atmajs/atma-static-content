@@ -21,7 +21,14 @@ var path_fromUrl,
 		if (path == null) 
 			return 403;
 		
-		path = Rewrite.process(path, appConfig);
+		var rewritten = Rewrite.process(path, appConfig);
+		if (rewritten !== path) {
+			if (fileProtocol_has(rewritten)) 
+				return normalize(fileProtocol_cut(rewritten));
+			
+			path = rewritten;
+		}
+		
 		base = getBase(appConfig, settings);
 		return _Uri.combine(base, path);
 	};
@@ -82,6 +89,22 @@ var path_fromUrl,
 			;
 	}
 	
+	var fileProtocol_has,
+		fileProtocol_cut;
+	(function(){
+		fileProtocol_has = function(path){
+			return path.substring(0, 5) === 'file:'
+		};
+		fileProtocol_cut = function (path) {
+			path = path.replace('file://', '');
+			
+			return path[0] === '/' && rgx_hasDrive.test(path)
+				? path.substring(1)
+				: path;
+		};
+		var rgx_hasDrive = /^\/?[A-Za-z]:(\/|\\)/;
+	}());
+	
 	var getBase;
 	(function(){
 		getBase = function (appConfig, settings){
@@ -89,19 +112,13 @@ var path_fromUrl,
 			if (base == null) 
 				return _cwd;
 			
-			if (base.substring(0, 5) === 'file:') {
-				base = base.replace('file://', '');
-				
-				return base[0] === '/' && rgx_hasDrive.test(base)
-					? base.substring(1)
-					: base
-					;
-			}
-			
-			return normalize(_Uri.combine(_cwd, base));
+			return fileProtocol_has(base)
+				? fileProtocol_cut(base)
+				: normalize(_Uri.combine(_cwd, base))
+				;
 		};
 		
-		var rgx_hasDrive = /^\/?[A-Za-z]:(\/|\\)/;
+		
 		function findBase(appConfig, settings) {
 			if (appConfig != null){
 				if (appConfig.static != null) 

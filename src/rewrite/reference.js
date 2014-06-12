@@ -17,7 +17,7 @@ var rewrite_reference;
 			return path;
 		
 		return net.Uri.combine(
-			projectPath, path.substring(ref_index + str.length)
+			projectPath, path.substring(match.index + str.length)
 		);
 	};
 	
