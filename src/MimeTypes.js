@@ -49,7 +49,7 @@ var MimeTypes;
 		},
 		/* { ExtensionString: MimeTypeString || {mimeType: MimeTypeString, encoding: } } */
 		registerExensions: function(extensions){
-			var val, ext
+			var val, ext;
 			for(ext in extensions) {
 				val = extensions[ext];
 				if (typeof val === 'string') {

@@ -45,7 +45,6 @@ var interface_express_send;
 		var arr = emitter._listeners[event];
 		return arr != null && arr.length > 0;
 	}
-	
 	function convertSettings(settings) {
 		var config = {
 			base: settings.root,
@@ -53,4 +52,4 @@ var interface_express_send;
 		};
 		return config;
 	}
-}())
+}());

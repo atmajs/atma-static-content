@@ -3,15 +3,18 @@
 // import utils/str.js
 // import utils/obj.js
 // import utils/file.js
-// import utils/path.js
-// import utils/res.js
-// import utils/send.js
-// import utils/responder.js
-// import rewrite/reference.js
 
 // import MimeTypes.js
 // import Rewrite.js
 // import Entry/entry.js
+
+// import utils/path.js
+// import utils/res.js
+
+// import utils/send.js
+// import utils/responder.js
+
+
 
 // import interfaces/express_send.js
 
@@ -38,7 +41,10 @@ module.exports = {
 		   maxAge: Number
 	   }
    },
-   defaultMimeType: string
+   defaultMimeType: string,
+   
+   // do not send errors on 404, but continue the middleware pipeline
+   silentNotFound: Boolean
  }
 */
 function createMiddleware(settings) {

@@ -40,7 +40,7 @@ var path_fromUrl,
 		
 		if (path.charCodeAt(path.length - 1) === 47) {
 			// / <is directory>
-			return null
+			return null;
 		}
 		return path + '/';
 	};
@@ -57,7 +57,7 @@ var path_fromUrl,
 			return path;
 		
 		try {
-			return decodeURIComponent(path)
+			return decodeURIComponent(path);
 		} catch(error){
 			return null;
 		}
@@ -93,7 +93,7 @@ var path_fromUrl,
 		fileProtocol_cut;
 	(function(){
 		fileProtocol_has = function(path){
-			return path.substring(0, 5) === 'file:'
+			return path.substring(0, 5) === 'file:';
 		};
 		fileProtocol_cut = function (path) {
 			path = path.replace('file://', '');

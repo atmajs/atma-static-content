@@ -63,6 +63,6 @@ var responder_create;
 				return dfr.reject(error);
 			}
 			return dfr;
-		}
+		};
 	};
 }());

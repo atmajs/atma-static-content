@@ -149,13 +149,13 @@ var File_Stream;
 			var result = '',
 				args = arguments,
 				fromCode = String.fromCharCode,
-				imax = arg.length,
+				imax = args.length,
 				i = 0;
 			while ( ++i < imax) {
 				if (format[i - 1] === 'N') {
-					result += fromCode(args[i] >> 24 & 0xFF);
-							+ fromCode(args[i] >> 16 & 0xFF);
-							+ fromCode(args[i] >> 8 & 0xFF);
+					result += fromCode(args[i] >> 24 & 0xFF)
+							+ fromCode(args[i] >> 16 & 0xFF)
+							+ fromCode(args[i] >> 8 & 0xFF)
 							+ fromCode(args[i] & 0xFF)
 							;
 					continue;
@@ -163,6 +163,6 @@ var File_Stream;
 				result += fromCode(args[i]);
 			}
 			return result;
-		};
-	}())
-}())
+		}
+	}());
+}());

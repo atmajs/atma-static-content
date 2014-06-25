@@ -36,7 +36,7 @@ var File_Static;
 			
 			// weak caching
 			if (this.etag != null) 
-				res.setHeader('ETag', this.etag)
+				res.setHeader('ETag', this.etag);
 			if (this.modified != null) 
 				res.setHeader('Last-Modified', this.modified.toUTCString());
 			
@@ -68,7 +68,7 @@ var File_Static;
 				res.end();
 				return;
 			}
-			this.writeBody(res, encoding, settings)
+			this.writeBody(res, encoding, settings);
 		},
 		writeBody: function(res, encoding){
 			

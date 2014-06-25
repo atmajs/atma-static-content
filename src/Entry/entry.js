@@ -1,14 +1,14 @@
 var entry_get,
 	entry_cache_state,
 	entry_cache_remove,
-	entry_cache_watch;
+	entry_cache_watch
 	;
 	
 (function(){
 	entry_get = function(path, req, config){
 		
 		if (Cache.hasOwnProperty(path)) 
-			return Cache[path]
+			return Cache[path];
 		
 		var mimeType = MimeTypes.resolveByPath(path),
 			file = File_Static.create(path, mimeType, req, config)

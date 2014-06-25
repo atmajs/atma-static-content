@@ -1,6 +1,8 @@
 var rewrite_reference;
 (function(){
 	rewrite_reference = function(path){
+		if (typeof app === 'undefined' || app.config == null) 
+			return path;
 		
 		var regexp = /\.reference\/([^\/]+)/,
 			match = regexp.exec(path),
@@ -20,5 +22,4 @@ var rewrite_reference;
 			projectPath, path.substring(match.index + str.length)
 		);
 	};
-	
 }());

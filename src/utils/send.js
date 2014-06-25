@@ -66,6 +66,14 @@ var send_error,
 		}
 		return fromStatusCode(code, message);
 	}
+	function trySet(res, key, val) {
+		try {
+			res.setHeader(key, val);
+			return true;
+		} catch(error){
+			return false;
+		}
+	}
 	
 	var STATUS_CODES;
 }());
