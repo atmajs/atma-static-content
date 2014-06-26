@@ -123,11 +123,10 @@ var File_Static;
 				;
 		},
 		getLength: function(encoding){
+			// (not using this.size) as FileMiddleware can modify data
+			
 			if (encoding === 'gzip') 
 				return this.gzip.length;
-			
-			if (this.size != null) 
-				return this.size;
 			
 			if (typeof this.content === 'string') 
 				return Buffer.byteLength(this.content, 'utf8');
