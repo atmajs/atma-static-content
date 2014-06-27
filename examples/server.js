@@ -3,7 +3,7 @@ var http = require('http'),
 	port = 5888
 	;
 	
-http
+module.exports = http
 	.createServer(Static.create({ base: './content' }))
 	.listen(port);
 

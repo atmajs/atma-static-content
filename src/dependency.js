@@ -1,4 +1,5 @@
 var __fs = require('fs');
+var __eventStream;
 
 var Class,
 	File,
@@ -21,3 +22,5 @@ var Class,
 	Class = atma.Class;
 	net = atma.net;
 }());
+	
+__eventStream = new Class.EventEmitter;

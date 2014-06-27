@@ -9,6 +9,8 @@ var File_String;
 				.readAsync('file://' + self.path, { encoding: 'buffer' })
 				.pipe(self, 'fail')
 				.done(function(content, file){
+					__eventStream.trigger('file', file || self);
+					
 					self.content = content;
 					
 					if (content.length < 100) {

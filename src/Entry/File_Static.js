@@ -83,6 +83,20 @@ var File_Static;
 			var self = this;
 			file_stats(this.path, function(error, stat){
 				if (error) {
+					
+					if (error.code === 'ENOENT') {
+						var virtual = File
+							.getFactory()
+							.resolveHandler('file://' + self.path);
+						if (virtual != null) {
+							
+							if (cb)
+								return cb(self, {}, req);
+							
+							self.resolve(self);
+						}
+					}
+					
 					self.reject(error);
 					return;
 				}

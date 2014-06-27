@@ -27,7 +27,10 @@ module.exports = {
 	Cache: {
 		state: entry_cache_state,
 		remove: entry_cache_remove
-	}
+	},
+	
+	on:  __eventStream.on.bind(__eventStream),
+	off: __eventStream.off.bind(__eventStream)
 };
 
 /*

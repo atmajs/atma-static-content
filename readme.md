@@ -5,7 +5,8 @@ Http Server static middleware
 - Binary/String files _html/scripts/styles/texts/json/.etc_:
 	- cache
 	- gzip
-	- File read middlewares. Refer to [atma-io](https://github.com/atmajs/atma-io) for documentation. 
+	- File `read` middlewares. Refer to [atma-io](https://github.com/atmajs/atma-io) for documentation.
+	- Virtual files
 - Binary streams _images/audio/video/pdf/.etc_:
 	- Range requests
 	
