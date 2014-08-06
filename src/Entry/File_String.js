@@ -36,9 +36,6 @@ var File_String;
 	});
 	
 	function serialize(obj){
-		if (obj.toString !== _obj_toString) 
-			return obj.toString();
-		
 		try {
 			return JSON.stringify(obj);
 		} catch(error) {
