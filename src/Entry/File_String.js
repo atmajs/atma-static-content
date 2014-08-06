@@ -11,6 +11,13 @@ var File_String;
 				.done(function(content, file){
 					__eventStream.trigger('file', file || self);
 					
+					if (content != null
+						&& typeof content === 'object'
+						&& Buffer.isBuffer(content) === false) {
+						
+						content = serialize(content);
+					}
+					
 					self.content = content;
 					
 					if (content.length < 100) {
@@ -28,4 +35,15 @@ var File_String;
 		}
 	});
 	
+	function serialize(obj){
+		if (obj.toString !== _obj_toString) 
+			return obj.toString();
+		
+		try {
+			return JSON.stringify(obj);
+		} catch(error) {
+			return error.message;
+		}
+	}
+	var _obj_toString = Object.prototype.toString;
 }());

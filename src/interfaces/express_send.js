@@ -7,7 +7,7 @@ var interface_express_send;
 	var Express = Class({
 		Base: Class.EventEmitter,
 		Construct: function(req, url, settings){
-			if (req.url != url) 
+			if (req.url !== url) 
 				req.url = url;
 			
 			this.req = req;
@@ -16,7 +16,7 @@ var interface_express_send;
 			this.responder = responder_create(this.settings);
 		},
 		maxage: function(ms){
-			if (Infinity == ms)
+			if (Infinity === ms)
 				ms = 60 * 60 * 24 * 365 * 1000;
 			this.settings.maxAge = ms / 1000 | 0;
 			return this;
