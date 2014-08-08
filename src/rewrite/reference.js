@@ -12,8 +12,14 @@ var rewrite_reference;
 		if (projects == null)
 			return path;
 		
-		var projectPath = projects[project] && projects[project].path,
-			str = '.reference/' + project;
+		var data = projects[project]
+		if (data == null) 
+			return path;
+		
+		var str = '.reference/' + project;
+		var projectPath = typeof data === 'string'
+			? data
+			: data.path;
 		
 		if (projectPath == null) 
 			return path;
