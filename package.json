@@ -1,6 +1,6 @@
 {
     "name": "static-content",
-    "version": "1.0.19",
+    "version": "1.0.21",
     "description": "HTTP Static Content Middleware",
     "author": "Alexander Kit (alex.kit@atmajs.com)",
     "main": "lib/static.js",
