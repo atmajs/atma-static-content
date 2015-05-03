@@ -14,7 +14,7 @@ UTest({
 			stdio: 'inherit'
 		});
 		
-		setTimeout(done, 300);
+		setTimeout(done, 600);
 		
 	},
 	
