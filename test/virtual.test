@@ -19,7 +19,10 @@ var app = http.createServer(function(req, res) {
 	}
 
 	send(req, req.url, {
-		root: fixtures
+		root: fixtures,
+		headers: {
+			'Access-Control-Allow-Origin': 'FooTest'
+		}
 	})
 		.on('error', error)
 		.on('directory', redirect)
@@ -52,6 +55,7 @@ UTest({
 				request(app)
 					.get('/foo.txt')
 					.expect('Content-Length', 'name:foo'.length)
+					.expect('Access-Control-Allow-Origin', 'FooTest')
 					.expect(200, 'name:foo', done)
 			},
 			

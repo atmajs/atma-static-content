@@ -3,14 +3,13 @@
 // import utils/str.js
 // import utils/obj.js
 // import utils/file.js
+// import utils/res.js
 
 // import MimeTypes.js
 // import Rewrite.js
 // import Entry/entry.js
 
 // import utils/path.js
-// import utils/res.js
-
 // import utils/send.js
 // import utils/responder.js
 
@@ -30,7 +29,12 @@ module.exports = {
 	},
 	
 	on:  __eventStream.on.bind(__eventStream),
-	off: __eventStream.off.bind(__eventStream)
+	off: __eventStream.off.bind(__eventStream),
+	
+	utils: {
+		/* (url, config, ?settings) */
+		resolvePath: path_fromUrl
+	}
 };
 
 /*

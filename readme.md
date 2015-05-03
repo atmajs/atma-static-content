@@ -2,12 +2,12 @@ Http Server static middleware
 -----
 [![Build Status](https://travis-ci.org/atmajs/atma-static-content.svg?branch=master)](https://travis-ci.org/atmajs/atma-static-content)
 [![NPM version](https://badge.fury.io/js/static-content.svg)](http://badge.fury.io/js/static-content)
-- Binary/String files _html/scripts/styles/texts/json/.etc_:
+- Binary/String files _html|scripts|styles|texts|json|.etc_:
 	- cache
 	- gzip
 	- File `read` middlewares. Refer to [atma-io](https://github.com/atmajs/atma-io) for documentation.
 	- Virtual files
-- Binary streams _images/audio/video/pdf/.etc_:
+- Binary streams _images|audio|video|pdf|.etc_:
 	- Range requests
 	
 - Best works with [atma-server](https://github.com/atmajs/atma-server)
@@ -27,21 +27,24 @@ StaticContentMiddleware {
 }
 
 StaticContentSettings {
-	// Static root folder
+	// Optional, static root folder
 	base: String
 	
-	// add or overwrite some mimeTypes
+	// Add or overwrite some mimeTypes
 	mimeTypes: { MimeTypeString: Array<Extension> }
 	extensions: MimeTypeString || Object {
 		mimeType: MimeTypeString,
 		
-		// when utf8 is set, then file will be also cached and gzipped
+		// When utf8 is set, then file will be also cached and gzipped
 		encoding: 'UTF-8' || null,
 		
-		// in seconds
+		// In seconds
 		maxAge: Number
 	},
-	defaultMimeType: MimeTypeString
+	defaultMimeType: MimeTypeString,
+	
+	// Optional, set of default Headers
+	headers: Object
 }
 AppConfig {
 	// Static root folder resolving:

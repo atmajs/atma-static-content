@@ -12,7 +12,7 @@ var rewrite_reference;
 		if (projects == null)
 			return path;
 		
-		var data = projects[project]
+		var data = projects[project];
 		if (data == null) 
 			return path;
 		

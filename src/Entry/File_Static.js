@@ -35,11 +35,12 @@ var File_Static;
 		write: function(req, res, settings){
 			
 			// weak caching
-			if (this.etag != null) 
+			if (this.etag != null) {
 				res.setHeader('ETag', this.etag);
-			if (this.modified != null) 
+			}
+			if (this.modified != null) {
 				res.setHeader('Last-Modified', this.modified.toUTCString());
-			
+			}
 			
 			// strong caching
 			var maxAge = settings.maxAge == null
@@ -53,9 +54,12 @@ var File_Static;
 			var encoding = this.getEncoding(req),
 				length = this.getLength(encoding)
 				;
-			if (encoding != null) 
+			if (encoding != null) {
 				res.setHeader('Content-Encoding', encoding);
-				
+			}
+			if (settings.headers != null) {
+				res_writeHeaders(res, settings.headers);
+			}
 			if (this.isNotModified(req)) {
 				res.statusCode = 304;
 				res.end();
