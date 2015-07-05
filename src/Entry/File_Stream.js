@@ -1,21 +1,20 @@
 var File_Stream;
 (function(){
-	File_Stream = Class({
-		Base: File_Static,
+	File_Stream = Utils.class_create(File_Static, {
 		maxAge: 60 * 30,
 		
-		Override: {
-			write: function(req, res, settings){
-				var range = Range.tryGet(this, req);
-				if (range != null) {
-					Range.write(this, range, res, settings);
-					return;
-				}
-				
-				res.setHeader('Accept-Ranges', 'bytes');
-				this.super(req, res, settings);
+	 
+		write: function(req, res, settings){
+			var range = Range.tryGet(this, req);
+			if (range != null) {
+				Range.write(this, range, res, settings);
+				return;
 			}
+			
+			res.setHeader('Accept-Ranges', 'bytes');
+			File_Static.prototype.write.call(this, req, res, settings);
 		},
+	
 		
 		writeBody: function(res, encoding, settings) {
 			var options = {

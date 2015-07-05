@@ -13,7 +13,7 @@ var responder_create;
 			MimeTypes.setDefault(settings.defaultMimeType);
 		
 		return function(req, res, appConfig){
-			var dfr = new Class.Deferred;
+			var dfr = new Utils.class_Dfr;
 			
 			if (res.writable === false || res.finished === true) {
 				return reject(Error('Stream is not writable'));

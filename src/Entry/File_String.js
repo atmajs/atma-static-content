@@ -1,7 +1,6 @@
 var File_String;
 (function(){
-	File_String = Class({
-		Base: File_Static,
+	File_String = Utils.class_create(File_Static, {
 		
 		statsCompleted: function(self, stats){
 			

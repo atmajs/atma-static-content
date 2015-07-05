@@ -1,8 +1,7 @@
 var File_Static;
 (function(){
 	
-	File_Static = Class({
-		Base: Class.Deferred,
+	File_Static = Utils.class_create(Utils.class_Dfr, {
 		path: null,
 		mimeType: null,
 		modified: null,
@@ -15,21 +14,10 @@ var File_Static;
 		gzip: null,
 		content: null,
 		
-		Construct: function(path, mimeType, req){
+		constructor: function(path, mimeType, req){
 			this.path = path;
 			this.mimeType = mimeType;
 			this.getStats(req, this.statsCompleted);
-		},
-		
-		Static: {
-			create: function(path, mimeType, req){
-				
-				var Ctor = MimeTypes.isString(mimeType)
-					? File_String
-					: File_Stream
-					;
-				return new Ctor(path, mimeType, req);
-			}
 		},
 		
 		write: function(req, res, settings){
@@ -166,6 +154,14 @@ var File_Static;
 			return false;
 		}
 	});
+	
+	File_Static.create = function(path, mimeType, req){				
+		var Ctor = MimeTypes.isString(mimeType)
+			? File_String
+			: File_Stream
+			;
+		return new Ctor(path, mimeType, req);
+	};
 	
 	// import File_String.js
 	// import File_Stream.js

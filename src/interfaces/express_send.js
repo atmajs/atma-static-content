@@ -4,9 +4,8 @@ var interface_express_send;
 		return new Express(req, url, settings);
 	};
 	
-	var Express = Class({
-		Base: Class.EventEmitter,
-		Construct: function(req, url, settings){
+	var Express = Utils.class_create(Utils.class_EventEmitter, {
+		constructor: function(req, url, settings){
 			if (req.url !== url) 
 				req.url = url;
 			

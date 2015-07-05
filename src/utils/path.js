@@ -44,7 +44,7 @@ var path_fromUrl,
 		}
 		return path + '/';
 	};
-	var _Uri = net.Uri,
+	var _Uri = Uri,
 		_cwd = normalize(process.cwd()),
 		_subFolder = /([^\/]+\/)?\.\.\//
 		;

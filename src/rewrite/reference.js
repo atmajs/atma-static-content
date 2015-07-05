@@ -24,7 +24,7 @@ var rewrite_reference;
 		if (projectPath == null) 
 			return path;
 		
-		return net.Uri.combine(
+		return Uri.combine(
 			projectPath, path.substring(match.index + str.length)
 		);
 	};
