@@ -1,9 +1,0 @@
-*.komodoproject
-.npmignore
-.travis.yml
-builds/
-test/
-src/
-tools/
-examples/
-build.js
