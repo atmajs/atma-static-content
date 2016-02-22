@@ -120,15 +120,15 @@ var path_fromUrl,
 		
 		
 		function findBase(appConfig, settings) {
+			if (settings != null) {
+				if (settings.base != null) 
+					return settings.base;
+			}
 			if (appConfig != null){
 				if (appConfig.static != null) 
 					return appConfig.static;
 				if (appConfig.base != null) 
 					return appConfig.base;
-			}
-			if (settings != null) {
-				if (settings.base != null) 
-					return settings.base;
 			}
 			return null;
 		}
