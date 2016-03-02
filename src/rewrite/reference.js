@@ -24,8 +24,14 @@ var rewrite_reference;
 		if (projectPath == null) 
 			return path;
 		
-		return Uri.combine(
+		var url = Uri.combine(
 			projectPath, path.substring(match.index + str.length)
 		);
+		// fix (npm module of a project can be located in the parents node_modules)
+		var rgx = /node_modules.+node_modules/;
+		while (rgx.test(url) && File.exists(url) === false) {
+			url = url.replace(rgx, 'node_modules');
+		}
+		return url;
 	};
 }());
