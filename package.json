@@ -1,25 +1,32 @@
 {
-  "name": "static-content",
-  "version": "1.1.25",
-  "description": "HTTP Static Content Middleware",
-  "author": "Alexander Kit (alex.kit@atmajs.com)",
-  "main": "lib/static.js",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/atmajs/atma-server-static.git"
-  },
-  "scripts": {
-    "test": "atma test"
-  },
-  "devDependencies": {
-    "atma": "latest",
-    "request": "~2.36.0",
-    "supertest": "~0.13.0",
-    "should": "~4.0.1"
-  },
-  "dependencies": {
-    "atma-io": "*",
-    "atma-utils": "^0.1.6"
-  }
+    "name": "static-content",
+    "version": "1.1.26",
+    "description": "HTTP Static Content Middleware",
+    "author": "Alexander Kit (alex.kit@atmajs.com)",
+    "main": "lib/static.js",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/atmajs/atma-server-static.git"
+    },
+    "scripts": {
+        "build": "atma",
+        "test": "atma test"
+    },
+    "devDependencies": {
+        "atma": "^0.11.9",
+        "atma-io-middleware-importer": "^1.1.30",
+        "request": "~2.36.0",
+        "should": "~4.0.1",
+        "supertest": "~0.13.0"
+    },
+    "dependencies": {
+        "atma-io": "*",
+        "atma-utils": "^0.1.6"
+    },
+    "atma": {
+        "plugins": [
+            "atma-io-middleware-importer"
+        ]
+    }
 }

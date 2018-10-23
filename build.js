@@ -42,8 +42,8 @@ module.exports = {
 	'defaults': [
 		'add-mimetypes-handler',
 		'import',
-		'jshint',
-		'uglify'
+		// 'jshint',
+		// 'uglify'
 	]
 };
 
