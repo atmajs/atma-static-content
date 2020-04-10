@@ -16,7 +16,7 @@
     "devDependencies": {
         "atma": "^0.11.9",
         "atma-io-middleware-importer": "^1.1.30",
-        "request": "~2.36.0",
+        "request": "~2.88.2",
         "should": "~4.0.1",
         "supertest": "~0.13.0"
     },
