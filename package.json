@@ -22,7 +22,7 @@
         "atma-io-middleware-importer": "^1.1.30",
         "atma-loader-ts": "^1.1.16",
         "atma-utest": "^0.21.25",
-        "request": "~2.36.0",
+        "request": "~2.88.2",
         "should": "~4.0.1",
         "supertest": "~0.13.0"
     },
