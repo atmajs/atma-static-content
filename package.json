@@ -1,6 +1,6 @@
 {
     "name": "static-content",
-    "version": "1.1.27",
+    "version": "1.2.1",
     "description": "HTTP Static Content Middleware",
     "author": "Alexander Kit (alex.kit@atmajs.com)",
     "main": "lib/static.js",
@@ -10,23 +10,128 @@
         "url": "https://github.com/atmajs/atma-server-static.git"
     },
     "scripts": {
-        "build": "atma",
+        "build": "app-bundler",
+        "dts": "tsc -p tsconfig-build.json && atma run tools/build-dts",
+        "watch": "app-bundler -watch",
+        "release": "echo \"Run atma pub -m \"message\"\"",
         "test": "atma test"
     },
     "devDependencies": {
-        "atma": "^0.11.9",
+        "app-bundler": "^0.1.2",
+        "atma": "^0.12.33",
         "atma-io-middleware-importer": "^1.1.30",
+        "atma-loader-ts": "^1.1.16",
+        "atma-utest": "^0.21.25",
         "request": "~2.36.0",
         "should": "~4.0.1",
         "supertest": "~0.13.0"
     },
     "dependencies": {
-        "atma-io": "*",
-        "atma-utils": "^0.1.6"
+        "@types/node": "^14.14.41",
+        "atma-io": "^1.2.52",
+        "atma-utils": "^0.2.58"
+    },
+    "app-bundler": {
+        "file": "src/export.ts",
+        "outputMain": "lib/static.js",
+        "package": {
+            "module": "commonjs",
+            "commonjs": {
+                "output": "simplified"
+            }
+        },
+        "extensions": {
+            "io": {
+                "type": "js"
+            }
+        },
+        "defaultExtensions": {
+            "js": "ts"
+        },
+        "dynamicDependencies": [
+            "appcfg",
+            "alot",
+            "atma-utils",
+            "atma-io",
+            "atma-class",
+            "ruta",
+            "^http$",
+            "^https$",
+            "^net$",
+            "^fs$",
+            "^zlib$",
+            "^crypto$",
+            "yamljs",
+            "class-json"
+        ],
+        "middlewares": {
+            "yml": [
+                "atma-io-middleware-yml:read"
+            ],
+            "js": [
+                "atma-io-middleware-importer:read"
+            ],
+            "ts": [
+                "atma-io-middleware-importer:read",
+                "atma-loader-ts:read"
+            ]
+        },
+        "prebuild": [
+            "tools/MimeTypes.js"
+        ]
     },
     "atma": {
+        "settings": {
+            "atma-utest": {
+                "include": {
+                    "amd": true
+                }
+            },
+            "include": {
+                "amd": true,
+                "extentionDefault": {
+                    "js": "ts"
+                }
+            },
+            "io": {
+                "extensions": {
+                    "js": [
+                        "atma-io-middleware-importer:read"
+                    ],
+                    "ts": [
+                        "atma-io-middleware-importer:read",
+                        "atma-loader-ts:read"
+                    ]
+                }
+            },
+            "atma-loader-ts": {
+                "extensions": [
+                    "ts",
+                    "test"
+                ],
+                "typescript": {
+                    "compilerOptions": {
+                        "typeRoots": [
+                            "./node_modules/@types",
+                            "./typings",
+                            "./typings-other"
+                        ],
+                        "target": "es5",
+                        "#if (TEST)": {
+                            "module": "AMD"
+                        },
+                        "#if (!TEST)": {
+                            "module": "CommonJS"
+                        },
+                        "sourceMap": false
+                    }
+                }
+            }
+        },
         "plugins": [
-            "atma-io-middleware-importer"
+            "atma-loader-ts",
+            "atma-io-middleware-importer",
+            "atma-io-middleware-yml"
         ]
     }
 }

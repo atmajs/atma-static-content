@@ -6,4 +6,5 @@ test/
 src/
 tools/
 examples/
-build.js
+typings/
+tsconfig-build.js
