@@ -24,7 +24,7 @@
         "atma-utest": "^0.21.25",
         "request": "~2.36.0",
         "should": "~4.0.1",
-        "supertest": "~0.13.0"
+        "supertest": "~6.3.3"
     },
     "dependencies": {
         "@types/node": "^14.14.41",
